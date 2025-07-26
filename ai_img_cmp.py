@@ -23,9 +23,17 @@
 import argparse
 import base64
 import os
+from enum import Enum
 from volcenginesdkarkruntime import Ark
 
 prompt_default = "你是一个负责测试穿戴产品的工程师，第一张图是设计稿，第二张图是测试设备图像，两张图像显示内容是否一致？如果一致，请回复“Yes”，否则请回复“No”并说明原因。"
+
+
+class ThinkingType(Enum):
+    DISABLED = "disabled"
+    ENABLED = "enabled"
+    AUTO = "auto"
+
 
 parser = argparse.ArgumentParser(description="Compare two images using AI.")
 parser.add_argument("--image-design", type=str, required=True, help="Design image path")
@@ -35,9 +43,9 @@ parser.add_argument(
 )
 parser.add_argument(
     "--thinking",
-    type=str,
-    default="disabled",
-    choices=["disabled", "enabled", "auto"],
+    type=ThinkingType,
+    default=ThinkingType.DISABLED,
+    choices=list(ThinkingType),
     help="Thinking type",
 )
 parser.add_argument(
@@ -96,7 +104,7 @@ print(f"Sending images and prompt to model...")
 response = client.chat.completions.create(
     model=args.model,
     thinking={
-        "type": args.thinking,
+        "type": args.thinking.value,
     },
     messages=[
         {
@@ -123,6 +131,9 @@ print("\nModel usage:")
 print(f"  Total tokens: {response.usage.total_tokens}")
 print(f"  Prompt tokens: {response.usage.prompt_tokens}")
 print(f"  Completion tokens: {response.usage.completion_tokens}")
+
+if args.thinking != ThinkingType.DISABLED:
+    print(f"\nModel thinking: {response.choices[0].message.reasoning_content}")
 
 response_msg = response.choices[0].message.content
 print(f"\nModel response:\n{response_msg}")
