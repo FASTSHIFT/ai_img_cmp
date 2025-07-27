@@ -22,7 +22,7 @@ pip install -r requirements.txt
 ## 运行
 
 ```bash
-python ai_img_cmp.py --image-design ./assets/device.png --image-device ./assets/device.png
+python ai_img_cmp.py --image-design ./assets/design.png --image-device ./assets/device.png
 ```
 
 返回结果示例：
