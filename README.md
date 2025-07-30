@@ -19,6 +19,30 @@ pip install -r requirements.txt
 
 见：[火山方舟](https://console.volcengine.com/ark)
 
+### 4. 配置API Key
+
+将`<ARK_API_KEY>`替换为实际的API Key。
+
+对于**BASH**终端:
+
+```shell
+echo "export ARK_API_KEY='<ARK_API_KEY>'" >> ~/.bashrc
+source ~/.bashrc
+```
+
+对于**ZSH**终端:
+
+```shell
+echo "export ARK_API_KEY='<ARK_API_KEY>'" >> ~/.zshrc
+source ~/.zshrc
+```
+
+验证是否配置成功。如果配置成功，运行以下命令会输出API Key:
+
+```bash
+echo $ARK_API_KEY
+```
+
 ## 运行
 
 ```bash
